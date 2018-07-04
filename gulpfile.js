@@ -7,7 +7,7 @@ gulp.task('sass', function() {
     .pipe(gulp.dest('src'));
 });
 
-gulp.task('watch', function(){
+gulp.task('default', function(){
   gulp.watch('src/scss/**/*.scss', ['sass']); 
   // Other watchers
 })

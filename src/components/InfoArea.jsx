@@ -78,6 +78,7 @@ class InfoArea extends React.Component {
 				<div className="module expenseItems">
 					<AddingArea 
 					handler={this.addItem} 
+					addItemToState={this.props.addItemToState}
 					deleteHandler={this.deleteItem} 
 					info={this.props.info}/>
 				</div>

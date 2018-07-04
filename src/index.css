@@ -222,6 +222,8 @@ select {
           left: 470px;
           width: 700px;
           background-color: rgba(255, 255, 255, 0.8); }
+          .spendingArea .categorization .category-popup .pop-content .addcat-title input {
+            margin-left: 90px; }
         .spendingArea .categorization .category-popup .pop-content .colnames .quarter {
           font-size: 18px;
           color: orange; }

@@ -26,7 +26,11 @@ class AddingArea extends React.Component {
 				deleteHandler={this.props.deleteHandler} 
 				handler={this.props.handler}
 				/>
-				<CatController props={this.state} info={this.props} />
+				<CatController 
+					props={this.state} 
+					info={this.props} 
+					addItemToState={this.props.addItemToState}
+					/>
 				<div className="toggleArea">
 					<div onClick={this.handleToggle} className={this.state.expensesToggled ? "toggle active" : "toggle"}>
 						Expenses

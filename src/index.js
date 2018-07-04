@@ -231,7 +231,8 @@ class MainContainer extends React.Component {
 					<InfoArea 
 					addItemToState={this.addItemToState}
 					deleteItemFromState={this.deleteItemFromState}
-					info={this.state} />
+					info={this.state}
+					/>
 				</div>
 				<div className="main-module">
 					<ModifyArea 
