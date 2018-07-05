@@ -6,6 +6,7 @@ class CatController extends React.Component {
 		super(props);
 		this.closePopup = this.closePopup.bind(this);
 		this.clearAllCats = this.clearAllCats.bind(this);
+		this.addToCategory = this.addToCategory.bind(this);
 		this.state = {
 			shownExpenses: JSON.parse(localStorage.getItem('budgifyExpenses')),
 			categorySelected: 'Food',

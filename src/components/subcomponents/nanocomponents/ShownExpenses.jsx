@@ -11,7 +11,9 @@ class ShownExpenses extends React.Component {
 	render() {
 		var catName = this.props.catName;
 		function regSearch() {
-			var value = document.getElementById('regSearch').value;
+			var catName = this.props.catName;
+			var value = document.getElementById(catName+'-search').value;
+			console.log(value);
 			var shownExpenses = this.props.expenses.filter(function(item) {
 				return item.description.toLowerCase().indexOf(value.toLowerCase()) > -1;
 			});
@@ -23,7 +25,7 @@ class ShownExpenses extends React.Component {
 			<div>
 				<div className="addcat-title">
 					Add Expenses to {catName}
-					<input id="regSearch" type="text" placeholder="Search" onChange={regSearch.bind(this)} />
+					<input id={catName+'-search'} type="text" placeholder="Search" onChange={regSearch.bind(this)} />
 				</div>
 				<div className="row expense-holder colcatNames">
 					<div className="column quarter describe">
