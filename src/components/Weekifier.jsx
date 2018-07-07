@@ -8,11 +8,13 @@ class Weekifier extends React.Component {
 	render() {
 		var info = this.props.info;
 		var surplus = info.currentBalance;
-		// var weekly = info.weekly;
-		var weekly;
+		var weekly, daily;
+		var midnight = new Date();
+		midnight.setHours(0,0,0,0);
+		var today = new Date();
 		if(info.expenses) {
 			var expenses = JSON.parse(info.expenses);
-			var total = 0;
+			var total = 0, dailyTotal = 0;
 			var current = new Date();
 			current.setHours(0,0,0,0);
 			this.latestSunday = current.setDate(current.getDate() - current.getDay());
@@ -22,6 +24,9 @@ class Weekifier extends React.Component {
 				return itemDate > latestSunday;
 			}, this);
 			expenses.forEach(function(item) {
+				if(new Date(item.date) > midnight && new Date(item.date) < today) {
+					dailyTotal += Number(item.cost);
+				}
 				total += Number(item.cost);
 			});
 			weekly = (Number(info.income) - total).toFixed(2);
@@ -31,6 +36,8 @@ class Weekifier extends React.Component {
 		if(info.weekly && info.weekly !== weekly) {
 			this.props.setWeeklyState(weekly);	
 		}
+		var dailyBudget = Number(info.income) / 7;
+		var dailyBudgetRemaining = (dailyBudget - dailyTotal).toFixed(2);
 		return (
 			<div>
 				<div className="weekifier-surplus">
@@ -43,10 +50,18 @@ class Weekifier extends React.Component {
 				</div>
 				<div className="weekifier">
 					<div className="statusTitle">
-						Weekly Budget
+						Weekly Budget Left
 					</div>
 					<div className="weekly-surplus">
 						$ {Number(weekly).toFixed(2)}
+					</div>
+				</div>
+				<div className="weekifier daily">
+					<div className="statusTitle">
+						Daily Budget Left
+					</div>
+					<div className="weekly-surplus">
+						$ {dailyBudgetRemaining}
 					</div>
 				</div>
 			</div>

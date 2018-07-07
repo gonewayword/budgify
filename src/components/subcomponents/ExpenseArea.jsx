@@ -29,6 +29,11 @@ class ExpenseArea extends React.Component {
 				Add
 				</button>
 				<div className="expenseArea">
+					<div className="timestrip">
+						<div className="spacetime">
+							Daily
+						</div>
+					</div>
 					{expenses.map((expense, i) => {
 						let formattedDate = '';
 						if(expense.date) {

@@ -57,6 +57,7 @@ class ShowerArea extends React.Component {
 					<div>
 						$ {totalDebt}
 					</div>
+					<hr />
 				</div>
 				<div className="weeklySpent shower">
 					<div>
@@ -65,6 +66,7 @@ class ShowerArea extends React.Component {
 					<div>
 						$ {Number(spentWeek).toFixed(2)}
 					</div>
+					<hr />
 				</div>
 				<div className="accumulatedIncome shower">
 					<div>
@@ -73,6 +75,25 @@ class ShowerArea extends React.Component {
 					<div>
 						$ {accumulatedIncome}
 					</div>
+					<hr />
+				</div>
+				<div className="accumulatedIncome shower">
+					<div>
+						Your Weekly Income:
+					</div>
+					<div>
+						$ {info.income}
+					</div>
+				<hr />
+				</div>
+				<div className="accumulatedIncome shower">
+					<div>
+						Your Daily Budget:
+					</div>
+					<div>
+						$ {(info.income/7).toFixed(2)}
+					</div>
+				<hr />
 				</div>
 				<div className="dateRange shower">
 					<div className="subtitle">

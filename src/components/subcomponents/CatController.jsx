@@ -1,5 +1,6 @@
 import React from 'react';
 import ShownExpenses from './nanocomponents/ShownExpenses.jsx';
+import Visualizer from './nanocomponents/Visualizer.jsx';
 
 class CatController extends React.Component {
 	constructor(props) {
@@ -114,6 +115,7 @@ class CatController extends React.Component {
 			temp[key] = this.state.categories[key];
 		  return temp;
 	  	}, this);
+		var expensesThisWeek = [];
 		return (
 			<div id="spendingArea" className={parentHandlers.categoryToggled ? "spendingArea showtime" : "spendingArea"}>
 				<ul className="categories">
@@ -141,6 +143,7 @@ class CatController extends React.Component {
 							var expense = catExpenses[i]; 
 							var expenseDate = new Date(expense.date);
 							if(expenseDate > latestSunday) {
+								expensesThisWeek.push(expense);
 								totalThisWeek += Number(expense.cost);
 							} else if(expenseDate < latestSunday && expenseDate > prevSun) {
 								totalLastWeek += Number(expense.cost);
@@ -180,6 +183,7 @@ class CatController extends React.Component {
 						)	
 					}
 				})}
+				<Visualizer info={info} thisWeek={expensesThisWeek} />
 				</div>
 			</div>
 		)
