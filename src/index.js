@@ -189,25 +189,33 @@ class MainContainer extends React.Component {
 	}
 	
 	newGame() {
-		var confirmed = window.confirm('This will reset your budget to start this week. Are you sure?');
+		var confirmed = window.prompt('Please enter a date from the week you\'d like to start your new game from.');
 		if(confirmed) {
 			var info = this.state;
 			var expenses = JSON.parse(info.expenses);
-			var total = 0;
-			var current = new Date();
+			var newTotal = 0;
+			var current = new Date(confirmed);
+			current.setDate(current.getDate() - current.getDay());
 			current.setHours(0,0,0,0);
-			this.latestSunday = current.setDate(current.getDate() - current.getDay());
 			expenses = expenses.filter(function(item) {
 				var itemDate = new Date(item.date);
-				var latestSunday = new Date(this.latestSunday);
-				return itemDate > latestSunday;
+				return itemDate > current;
 			}, this);
 			expenses.forEach(function(item) {
-				total += Number(item.cost);
+				newTotal += Number(item.cost);
 			});
-			var weekly = (Number(info.income) - total).toFixed(2);
-			this.setState({currentBalance: weekly});
-			localStorage.setItem('budgifyBalance', weekly);
+			var today = new Date();
+			var totalSundays = 0;
+			for(var i = current; i <= today; ){
+				if (i.getDay() === 0){
+			        totalSundays++;
+			    }
+				i.setTime(i.getTime() + 1000*60*60*24);
+			}
+			var incomeSince = totalSundays * this.state.income;
+			var surplus = incomeSince - newTotal;
+			this.setState({currentBalance: surplus});
+			localStorage.setItem('budgifyBalance', surplus);
 		}
 	}
 	

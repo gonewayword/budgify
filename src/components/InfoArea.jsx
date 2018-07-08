@@ -18,6 +18,7 @@ class InfoArea extends React.Component {
 		if(dateValue) {
 			var unadjustedDate = new Date(dateValue);
 			adjustedDate = new Date(unadjustedDate.getTime() + (unadjustedDate.getTimezoneOffset() * 60 * 1000));
+			adjustedDate.setHours(0,0,1,0);
 		} else {
 			adjustedDate = new Date();
 		}
@@ -37,10 +38,19 @@ class InfoArea extends React.Component {
 			cost: cost,
 			date: adjustedDate
 		});
+		expenseStorage.sort(function(a,b) {
+			if(new Date(a.date) < new Date(b.date)) {
+				return 1;
+			}
+			if(new Date(a.date) > new Date(b.date)){
+				return -1;
+			}
+			return 0;
+		});	
 		var newBalance = localStorage.getItem('budgifyBalance') - cost;
 		localStorage.setItem('budgifyBalance', newBalance);
 		localStorage.setItem('budgifyExpenses', JSON.stringify(expenseStorage));
-		this.props.addItemToState(JSON.stringify(expenseStorage), newBalance)
+		this.props.addItemToState(JSON.stringify(expenseStorage), newBalance);
 		this.forceUpdate();
 		document.getElementById('cost').value = null;
 		document.getElementById('description').value = ''
@@ -58,10 +68,19 @@ class InfoArea extends React.Component {
 			return false;
 		}
 		var expenses = JSON.parse(localStorage.getItem('budgifyExpenses'));
+		expenses.splice(index, 1);
+		expenses.sort(function(a,b) {
+			if(new Date(a.date) < new Date(b.date)) {
+				return 1;
+			}
+			if(new Date(a.date) > new Date(b.date)){
+				return -1;
+			}
+			return 0;
+		});	
 		var currentBalance = localStorage.getItem('budgifyBalance');
 		var newBalance = Number(currentBalance) + Number(expenses[index].cost);
 		var removedItemName = expenses[index].description;
-		expenses.splice(index, 1);
 		var newExpenses = JSON.stringify(expenses);
 		this.props.deleteItemFromState(newBalance, newExpenses);
 		localStorage.setItem('budgifyBalance', newBalance);

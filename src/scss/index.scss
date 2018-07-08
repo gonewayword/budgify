@@ -456,14 +456,73 @@ select {
   }
 }
 
-.weekifier-surplus {
+.weekifier {
+  text-align: center;
   background-color: rgba(255, 255, 255, 0.2);
-  padding: 20px;
+  padding: 20px 35px;
   min-width: 157px;
   border-radius: 20px;
   position: fixed;
   top: 20px;
-  right: 40%;
+  right: 28.8%;
+  &.daily {
+      right: 10%;
+  }
+  &.surplus {
+      right: 45.8%; 
+      &:before, &:after {
+          content: '';
+          background: none;
+          animation: none;
+          cursor:auto;
+      } 
+  }
+  &:before {
+    content: '';
+    font-weight: 900;
+    font-size: 28px;
+    color: rgba(255,255,255,0.7);
+    background-color: rgba(255,255,255,0.2);
+    position: absolute;
+    height: 100%;
+    width: 10%;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    cursor: pointer;
+    left: 0;
+    top:0;
+    animation: pulse 1s infinite;
+  }
+  &:after {
+    content: '';
+    font-weight: 900;
+    font-size: 28px;
+    color: rgba(255,255,255,0.7);
+    height: 100%;
+    width: 10%;
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    top:0;
+    animation: pulse 1s ease-out infinite;
+  }
+  .invisaclick {
+      position: absolute;
+      height: 100%;
+      width: 10%;
+      opacity: 0;
+      top: 0;
+      cursor:pointer;
+      z-index: 1000;
+      &.left {
+          left: 0;
+      }
+      &.right {
+          right: 0;
+      }
+  }
   .statusTitle {
     font-size: 22px;
     font-weight: 700;
@@ -474,26 +533,16 @@ select {
     font-size: 35px;
   }
 }
-
-.weekifier {
-  background-color: rgba(255, 255, 255, 0.2);
-  padding: 20px;
-  min-width: 157px;
-  border-radius: 20px;
-  position: fixed;
-  top: 20px;
-  right: 24%;
-  .statusTitle {
-    font-size: 22px;
-    font-weight: 700;
-    color: rgb(64, 119, 171);
-  }
-  .weekly-surplus {
-    color: white;
-    font-size: 35px;
+@keyframes none {
+  0%, 100% {
+      background-color: rgba(255,255,255,0.2);
   }
 }
-
-.weekifier.daily {
-    right: 10%;
+@keyframes pulse {
+  0%, 100% {
+      background-color: rgba(255,255,255,0.2);
+  }
+  50% {
+      background-color: rgba(255,255,255,0.4);
+  }
 }
