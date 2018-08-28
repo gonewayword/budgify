@@ -17,6 +17,7 @@ class MainContainer extends React.Component {
 		this.newGame = this.newGame.bind(this);
 		this.setIncomeState = this.setIncomeState.bind(this);
 		this.setWeeklyState = this.setWeeklyState.bind(this);
+		this.setDailyState = this.setDailyState.bind(this);
 		var localIncome = localStorage.getItem('budgifyIncome');
 		var localBalance = localStorage.getItem('budgifyBalance');
 		var localExpenses = localStorage.getItem('budgifyExpenses');
@@ -25,12 +26,16 @@ class MainContainer extends React.Component {
 		// this.state.income = (localIncome ? localIncome : 0);
 		var localStartingIncome = localStorage.getItem('budgifyStartingIncome');
 		var localFrequency = localStorage.getItem('budgifyFrequency');
+		var localStartDate = localStorage.getItem('budgifyStartDate');
 		var weeklyBudget = localStorage.getItem('budgifyWeeklyBudget') || 0;
+		// var dailyBudget = localStorage.getItem('budgifyDailyBudget') || 0;
 		this.state = {
+			startDate: localStartDate || new Date(),
 			expenses: localExpenses  || [],
 			income: localIncome || 0,
 			startingIncome: (localStartingIncome ? localStartingIncome : 0),
 			weekly: (weeklyBudget ? weeklyBudget : (localIncome ? localIncome : 0)),
+			// daily: ()
 			currentBalance: (localBalance ? localBalance : 0),
 			frequency: localFrequency ? localFrequency : null,
 			frequencyOptions: [
@@ -122,6 +127,11 @@ class MainContainer extends React.Component {
 			weekly: newWeekly
 		})
 	}
+	setDailyState(newDaily) {
+		this.setState({
+			daily: newDaily
+		})
+	}
 	// getWeekly() {
 	// 	var info = this.state;
 	// 	var weekly;
@@ -193,27 +203,36 @@ class MainContainer extends React.Component {
 		if(confirmed) {
 			var info = this.state;
 			var expenses = JSON.parse(info.expenses);
-			var newTotal = 0;
+			var totalSpent = 0;
+			var daily = this.state.income / 7;
 			var current = new Date(confirmed);
+			var today = new Date();
+			today.setHours(0,0,0,0);
 			current.setDate(current.getDate() - current.getDay());
 			current.setHours(0,0,0,0);
+			this.setState({startDate: current});
+			localStorage.setItem('budgifyStartDate', current);
+			var daysSince = (today.getTime() - current.getTime()) / (1000 * 60 * 60 * 24);
+			var totalEarned = daysSince * daily;
 			expenses = expenses.filter(function(item) {
 				var itemDate = new Date(item.date);
 				return itemDate > current;
 			}, this);
 			expenses.forEach(function(item) {
-				newTotal += Number(item.cost);
+				totalSpent += Number(item.cost);
 			});
-			var today = new Date();
-			var totalSundays = 0;
-			for(var i = current; i <= today; ){
-				if (i.getDay() === 0){
-			        totalSundays++;
-			    }
-				i.setTime(i.getTime() + 1000*60*60*24);
-			}
-			var incomeSince = totalSundays * this.state.income;
-			var surplus = incomeSince - newTotal;
+			// var today = new Date();
+			// var totalSundays = 0;
+			// for(var i = current; i <= today; ){
+			// 	if (i.getDay() === 0){
+			//         totalSundays++;
+			//     }
+			// 	i.setTime(i.getTime() + 1000*60*60*24);
+			// }
+			// var incomeSince = totalSundays * this.state.income;
+			console.log(totalEarned);
+			console.log(totalSpent);
+			var surplus = totalEarned - totalSpent;
 			this.setState({currentBalance: surplus});
 			localStorage.setItem('budgifyBalance', surplus);
 		}
@@ -250,7 +269,11 @@ class MainContainer extends React.Component {
 					info={this.state} />
 				</div>
 			</div>
-			<Weekifier info={this.state} setWeeklyState={this.setWeeklyState}/>
+			<Weekifier 
+				info={this.state} 
+				setWeeklyState={this.setWeeklyState}
+				setDailyState={this.setDailyState}
+				/>
 		 </div>
 	   )
 	 }

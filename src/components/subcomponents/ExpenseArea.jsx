@@ -47,13 +47,16 @@ class ExpenseArea extends React.Component {
 						}
 						return (
 							<div className="row expense-holder" key={i}>
-								<div className="column third describe">
+								<div className="column quarter describe">
 									{expense.description}
 								</div>
-								<div className="column third spend">
+								<div className="column quarter spend">
 									$ {expense.cost}
 								</div>
-								<div className="column third date">
+								<div className="column quarter spend">
+									{expense.category}
+								</div>
+								<div className="column quarter date">
 									{formattedDate}
 								</div>
 								<button className="delete" onClick={this.props.deleteHandler.bind(this, i)}>

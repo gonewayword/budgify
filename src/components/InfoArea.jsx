@@ -51,7 +51,7 @@ class InfoArea extends React.Component {
 		localStorage.setItem('budgifyBalance', newBalance);
 		localStorage.setItem('budgifyExpenses', JSON.stringify(expenseStorage));
 		this.props.addItemToState(JSON.stringify(expenseStorage), newBalance);
-		this.forceUpdate();
+		// this.forceUpdate();
 		document.getElementById('cost').value = null;
 		document.getElementById('description').value = ''
 		document.getElementById('description').focus();

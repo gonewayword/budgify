@@ -86,6 +86,7 @@ class CatController extends React.Component {
 		thisExpense.category = catName;
 		expenses[index] = thisExpense;
 		localStorage.setItem('budgifyExpenses', JSON.stringify(expenses));
+		localStorage.setItem('budgifyCategories', JSON.stringify(categories));
 		var balance = localStorage.getItem('budgifyBalance');
 		this.props.addItemToState(JSON.stringify(expenses), balance);
 		//SET IT IN STATE TOO
@@ -117,12 +118,14 @@ class CatController extends React.Component {
 	  	}, this);
 		var expensesThisWeek = [];
 		return (
+			<div>
 			<div id="spendingArea" className={parentHandlers.categoryToggled ? "spendingArea showtime" : "spendingArea"}>
 				<ul className="categories">
 					{catMap.map((cat, i) => {
 						for(let catName in cat) {
 							return <li onClick={(param) => this.showCategory(catName)} className={catName} key={catName}>{catName}</li>;
 						}						
+						return true;
 					})}
 				</ul>
 				<div className="categorization">
@@ -131,7 +134,6 @@ class CatController extends React.Component {
 						var catExpenses = this.state.categories[catName].expenses,
 							current = new Date(),
 							modifier = new Date(),
-							modifierTwo = new Date(), 
 							latestSunday = new Date(modifier.setDate(modifier.getDate() - modifier.getDay())),
 							dayBefore = new Date(modifier.setDate(modifier.getDate() - (modifier.getDay() + 1))),
 							prevSun = new Date(dayBefore.setDate(dayBefore.getDate() - dayBefore.getDay())),
@@ -139,8 +141,8 @@ class CatController extends React.Component {
 							totalLastWeek = 0;
 						current.setHours(0,0,0,0);
 						latestSunday.setHours(0,0,0,0);
-						for(var i = 0; i < catExpenses.length; i++) {
-							var expense = catExpenses[i]; 
+						for(var x = 0; x < catExpenses.length; x++) {
+							var expense = catExpenses[x]; 
 							var expenseDate = new Date(expense.date);
 							if(expenseDate > latestSunday) {
 								expensesThisWeek.push(expense);
@@ -148,9 +150,6 @@ class CatController extends React.Component {
 							} else if(expenseDate < latestSunday && expenseDate > prevSun) {
 								totalLastWeek += Number(expense.cost);
 							}
-						}
-						if(!shownExpenses) {
-							var shownExpenses = expenses;
 						}
 
 						return(
@@ -182,8 +181,13 @@ class CatController extends React.Component {
 							</div>
 						)	
 					}
+					return true;
 				})}
-				<Visualizer info={info} thisWeek={expensesThisWeek} />
+				</div>
+			</div>
+				<div className="visualizerea">
+					<button className="visualize">Visualizer</button>
+					<Visualizer info={info} thisWeek={expensesThisWeek} />
 				</div>
 			</div>
 		)

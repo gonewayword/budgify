@@ -10,17 +10,10 @@ body {
 }
 
 .budgify-app {
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   background-color: rgba(255, 255, 255, 0.5);
   background-attachment: fixed;
-  /* background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(255,255,255,1) 8%,rgba(255,255,255,0.7) 28%,rgba(255,255,255,0.5) 78%,rgba(255,255,255,0) 100%); */
-  /* box-shadow: 3px 3px 5px grey;
-  border-radius: 40px;
-  max-width: 800px;
-  height: 400px;
-  margin: 100px 100px;
-  transition: box-shadow 2s ease; */
 }
 
 .row {
@@ -28,7 +21,6 @@ body {
   width: 100%;
   padding: 10px 10px;
   .column {
-    /* margin: 10px 10px; */
     display: inline-block;
     width: 100%;
     &.half {
@@ -193,7 +185,6 @@ button {
     float: left !important;
   }
   &:not(.delete) {
-    /* width: 100%; */
   }
 }
 
@@ -295,7 +286,6 @@ select {
     width: 100%;
     text-align: center;
     height: 30px;
-    /* overflow: hidden; */
   }
   .categories li {
     display: inline;
@@ -319,7 +309,6 @@ select {
 .module.expenseItems {
   padding-top: 0;
   .addingArea {
-    /* width: 95%; */
     padding: 20px 15px 0 15px;
     background-color: rgba(64, 165, 171, 0.2);
     border: 3px solid slate;
@@ -392,16 +381,10 @@ select {
     padding-right: 9px;
   }
   &:hover {
-    /* box-shadow: 4px 5px 10px grey; */
     background-color: rgba(255, 255, 255, 0.5);
-    /* border-radius: 25px; */
-    /* width: 80%; */
-    /* margin-left: 5%; */
-    /* z-index: 100; */
     cursor: pointer;
   }
   .spend {
-    /* color: #0a900a; */
     color: rgb(64, 119, 171);
   }
 }
@@ -417,7 +400,7 @@ select {
     border-bottom-left-radius: 25px;
     border-bottom-right-radius: 25px;
     .timestrip {
-        
+
     }
   }
   #deleted-overlay {
@@ -442,8 +425,6 @@ select {
   }
   #deleted-popup {
     margin: 0 auto;
-    /* height: 50px;
-    width: 200px; */
     padding: 20px 40px;
     display: flex;
     justify-content: center;
@@ -469,7 +450,12 @@ select {
       right: 10%;
   }
   &.surplus {
-      right: 45.8%; 
+    right: 62.8%; 
+  }
+  &.daily-surplus {
+      right: 44.8%;
+  }
+  &.surplus, &.daily-surplus {
       &:before, &:after {
           content: '';
           background: none;
@@ -545,4 +531,29 @@ select {
   50% {
       background-color: rgba(255,255,255,0.4);
   }
+}
+
+.visualizerea {
+    background-color: rgba(64, 165, 171, 0.2);
+    border-bottom-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+    // z-index: 100000;
+    // position:fixed;
+    // top:0;
+    // left:0;
+    // right:0;
+    // bottom:0;
+    // display:flex;
+    // align-items: center;
+    // justify-content: center;
+    // display: none;
+}
+
+.arc path {
+    stroke: #ffffff;
+}
+
+svg g text {
+    fill: white;
+    font-size: 24px;
 }

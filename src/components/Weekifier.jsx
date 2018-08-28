@@ -23,10 +23,11 @@ class Weekifier extends React.Component {
 	}
 	changeWeek(direction) {
 		var thisWeek = new Date(this.state.selectedWeek);
+		var lastWeek;
 		if(direction === 'left') {
-			var lastWeek = new Date(thisWeek.setDate(thisWeek.getDate() - 7));
+			lastWeek = new Date(thisWeek.setDate(thisWeek.getDate() - 7));
 		} else if(direction === 'right') {
-			var lastWeek = new Date(thisWeek.setDate(thisWeek.getDate() + 7));
+			lastWeek = new Date(thisWeek.setDate(thisWeek.getDate() + 7));
 			var today = new Date();
 			if(today < lastWeek) {
 				alert('Cannot time travel into the future! At least not yet.');
@@ -41,10 +42,11 @@ class Weekifier extends React.Component {
 	}
 	changeDay(direction) {
 		var thisDay = new Date(this.state.selectedDay);
+		var diffDay;
 		if(direction === 'left') {
-			var diffDay = new Date(thisDay.setDate(thisDay.getDate() - 1));
+			diffDay = new Date(thisDay.setDate(thisDay.getDate() - 1));
 		} else if(direction === 'right') {
-			var diffDay = new Date(thisDay.setDate(thisDay.getDate() + 1));
+			diffDay = new Date(thisDay.setDate(thisDay.getDate() + 1));
 			var today = new Date();
 			if(today < diffDay) {
 				alert('Cannot time travel into the future! At least not yet.');
@@ -111,6 +113,18 @@ class Weekifier extends React.Component {
 							selectedDay.getDate() + 
 							'/' + 
 							selectedDay.getFullYear();
+		var rightNow = new Date();
+		var spent = 0;
+		var current = new Date();
+		current.setHours(0,0,0,0);
+		var latestSunday = new Date(current.setDate(current.getDate() - current.getDay()));
+		JSON.parse(this.props.info.expenses).forEach(function(item) {
+			var itemDate = new Date(item.date);
+			if(itemDate > latestSunday && itemDate < rightNow) {
+				spent += Number(item.cost);
+			}
+		});
+		var weekSurplus = ((this.props.info.income/7) * (rightNow.getDay() + 1)) - spent;
 		return (
 			<div>
 				<div className="weekifier surplus">
@@ -119,6 +133,14 @@ class Weekifier extends React.Component {
 					</div>
 					<div className="surplus">
 						$ {Number(surplus).toFixed(2)}
+					</div>
+				</div>
+				<div className="weekifier daily-surplus">
+					<div className="statusTitle">
+						This week's surplus
+					</div>
+					<div className="surplus">
+						$ {weekSurplus.toFixed(2)}
 					</div>
 				</div>
 				<div className="weekifier">
@@ -133,7 +155,7 @@ class Weekifier extends React.Component {
 					<div className="invisaclick right" onClick={(params) => this.changeWeek('right')}></div>
 				</div>
 				<div className="weekifier daily">
-				<div className="invisaclick left" onClick={(params) => this.changeDay('left')}></div>
+					<div className="invisaclick left" onClick={(params) => this.changeDay('left')}></div>
 					<div className="statusTitle">
 						Budget for the date: <br />
 						{presentDay}
